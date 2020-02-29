@@ -1,0 +1,25 @@
+{
+  "name": "boy-memory",
+  "description": "boy-memory. Support web Intelligent data memory cache functions such as temp cache data storage, data operation of platform level input&output, temp cache/flash data persistance and so on.",
+  "main": "webApi/memoryEntry.js",
+  "authors": [
+    "boybian <coldboardcoldtree@126.com>"
+  ],
+  "license": "MPL(Mozilla Public License1.1)",
+  "keywords": [
+    "memcached",
+    "webCache",
+    "Radis",
+    "node-cache",
+    "net memory",
+    "缓存"
+  ],
+  "homepage": "https://github.com/boyplatform/memory",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
