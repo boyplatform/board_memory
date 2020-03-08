@@ -8,3 +8,6 @@ memory,One repo of boy distribute modality platform. Support web Intelligent&dis
 #Why memory
 1.If you want to split your original database/database-cluster's content into several diff level web distribute cache and raise up your platform's performance,you can use memory.
 2.If you want to use database cluster which was hosted by diskData-role with memory-role together under boyplatform,you can use memory.
+
+#Current bussiness DB type supported by this micro-service role
+MySql
