@@ -152,7 +152,7 @@ function memDataWrite(body,res) {
 
    if(body.blockVerifyOrNot!==undefined&&body.blockVerifyOrNot===false)
    {
-            redisCacheOperator.dataWrite(redisCacheOperator,conf.platformArch.NonBlockChainPublishChannel.toUpperCase(),body.writeSql,function(result){
+            redisCacheOperator.dataWrite(body.reqStorageClusterDbType,redisCacheOperator,conf.platformArch.NonBlockChainPublishChannel.toUpperCase(),body.writeSql,function(result){
                
                var returnRs={result:false,desc:null};
                if(result){
@@ -173,7 +173,7 @@ function memDataWrite(body,res) {
          });
    }else{
 
-         redisCacheOperator.dataWrite(redisCacheOperator,body.targetDbName.toString().toUpperCase(),body.writeSql,function(result){
+         redisCacheOperator.dataWrite(body.reqStorageClusterDbType,redisCacheOperator,body.targetDbName.toString().toUpperCase(),body.writeSql,function(result){
          
             var returnRs={result:false,desc:null};
             if(result){
@@ -209,7 +209,7 @@ function memDataRead(body,res) {
       }
      //Read level 1 memory--node Cached
      
-     nodeCacheOperator.dataRead(body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
+     nodeCacheOperator.dataRead(body.reqStorageClusterDbType,body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
             //mock stone
                if(body.mocktype!==undefined&&body.mocktype==="nodeCacheOperator"){
                      if(resultValue===undefined||resultValue===null||resultValue===[]){
@@ -229,7 +229,7 @@ function memDataRead(body,res) {
                } 
           if(resultValue===undefined||resultValue===null||resultValue===[]){
                //If not existed at level 1 memory, then read level 2 memory--memcached memory
-                memCacheOperator.dataRead(body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
+                memCacheOperator.dataRead(body.reqStorageClusterDbType,body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
                      //mock stone
                      if(body.mocktype!==undefined&&body.mocktype==="memCacheOperator"){
                            if(resultValue===undefined||resultValue===null||resultValue===[]){
@@ -250,7 +250,7 @@ function memDataRead(body,res) {
                      if(resultValue===undefined||resultValue===null||resultValue===[]){
 
                          //If not existed at level 2 memory, then read level 3 memory--redis memory
-                         redisCacheOperator.dataRead(body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
+                         redisCacheOperator.dataRead(body.reqStorageClusterDbType,body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
                               //mock stone
                               if(body.mocktype!==undefined&&body.mocktype==="redisCacheOperator"){
                                     if(resultValue===undefined||resultValue===null||resultValue===[]){
@@ -269,7 +269,7 @@ function memDataRead(body,res) {
                               }
                               if(resultValue===undefined||resultValue===null||resultValue===[]){
                                   //If not existed at level 3 memory, then read level 0 backup memory--localFeedDiskOperator memory
-                                   localFeedDiskOperator.dataRead(body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
+                                   localFeedDiskOperator.dataRead(body.reqStorageClusterDbType,body.targetDbName.toString().toUpperCase(),body.keyObjName,body.keyObjType,body.querySql,body.ttl,body.cacheGenMethod,function(resultValue){
                                        if(resultValue===undefined||resultValue===null||resultValue===[]){
 
                                                //If all not existed,return result with description.

@@ -1,7 +1,7 @@
 'use strict'
 function localFeedShadow(localFeedGuid,feedPath,feedName,feedSize,createTime,updateTime,
     keyObjName,feedExtName,keyObjType,valueSha,cacheGenMethod,querySqlSha,
-    writeSqlSha,querySql,writeSql,ttl,targetDbName,value){
+    writeSqlSha,querySql,writeSql,ttl,targetDbName,value,reqStorageClusterDbType){
 
         this.localFeedGuid=localFeedGuid;
         this.feedPath=feedPath;
@@ -21,6 +21,7 @@ function localFeedShadow(localFeedGuid,feedPath,feedName,feedSize,createTime,upd
         this.ttl=ttl;
         this.targetDbName=targetDbName;
         this.value=value;
+        this.reqStorageClusterDbType=reqStorageClusterDbType;
 
 };
 

@@ -35,7 +35,7 @@ RedisCacheOperator.prototype.setConn=function(){
 }
 
 //write-in operation
-RedisCacheOperator.prototype.dataWrite=function(redisCacheOperator,targetDbName,writeSql,cb){
+RedisCacheOperator.prototype.dataWrite=function(reqStorageClusterDbType,redisCacheOperator,targetDbName,writeSql,cb){
     
     //verify whether there some key word regarding write under value,if no,ban the operation and return alert via cb
     if(writeSql.indexOf("insert")<0 
@@ -62,7 +62,7 @@ RedisCacheOperator.prototype.dataWrite=function(redisCacheOperator,targetDbName,
         return;
     }
     //make operation message to sha256
-    var writeSqlSha=memoryCommon.getSha256(targetDbName+writeSql,conf.platformArch.shaHashLengh);
+    var writeSqlSha=memoryCommon.getSha256(reqStorageClusterDbType.toString()+targetDbName+writeSql,conf.platformArch.shaHashLengh);
 
     //verify whether the operation sha was existed under current NodeDb shadow,if not existed insert value into sha column.
     this.memoryNodeInfoRecord.redisCacheShadowSelect("1","where targetDbName=? and writeSqlSha=?",[targetDbName,writeSqlSha],"order by createTime desc",function(rows){
@@ -70,7 +70,7 @@ RedisCacheOperator.prototype.dataWrite=function(redisCacheOperator,targetDbName,
 
            var redisCacheShadow=new RedisCacheShadow(memoryCommon.getUUID(),null,null,null,
            memoryCommon.GetFormatDateFromTimeSpan(Date.now()),memoryCommon.GetFormatDateFromTimeSpan(Date.now()),null,null,null,writeSqlSha,
-           null,writeSql,null,targetDbName);
+           null,writeSql,null,targetDbName,reqStorageClusterDbType);
            
            this.memoryNodeInfoRecord.redisCacheShadowInsert(redisCacheShadow);
             
@@ -78,16 +78,16 @@ RedisCacheOperator.prototype.dataWrite=function(redisCacheOperator,targetDbName,
     }.bind(redisCacheOperator));
     
     //publish the write-in operation to redis.
-    this.memoryNodeCache.publish(targetDbName,writeSql,cb);
+    this.memoryNodeCache.publish(targetDbName+reqStorageClusterDbType.toString(),writeSql,cb);
 
 };
 
 //query-out operation
-RedisCacheOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObjType,querySql,ttl,cacheGenMethod,cb){
+RedisCacheOperator.prototype.dataRead=function(reqStorageClusterDbType,targetDbName,keyObjName,keyObjType,querySql,ttl,cacheGenMethod,cb){
 
     
     //make querysql into sha256 as a key
-    var querySqlSha=memoryCommon.getSha256(targetDbName+keyObjName+keyObjType+querySql,conf.platformArch.shaHashLengh);
+    var querySqlSha=memoryCommon.getSha256(reqStorageClusterDbType.toString()+targetDbName+keyObjName+keyObjType+querySql,conf.platformArch.shaHashLengh);
     //get value per the sha256 from current nodeDb
     this.memoryNodeInfoRecord.redisCacheShadowSelect("1","where keyObjName=? and keyObjType=? and targetDbName=? and querySqlSha=?",[keyObjName,keyObjType,targetDbName,querySqlSha],"",function(rows){
             if(rows!==undefined&&rows.length>0){
@@ -110,7 +110,7 @@ RedisCacheOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObjTyp
                                 cb(value); 
                             }else{
                                     //try to get value from disk-data
-                                    this.diskDataTalker.seekDataFromDiskData(querySql,function(valueFromDiskData){
+                                    this.diskDataTalker.seekDataFromDiskData(reqStorageClusterDbType,querySql,function(valueFromDiskData){
                                         //set value into redis memory per ttl ,save the value into current nodeDb, and return value via cb
                                         if(valueFromDiskData!=undefined&&valueFromDiskData!=null&&valueFromDiskData!="[]"){
                                                     
@@ -122,7 +122,7 @@ RedisCacheOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObjTyp
                                                 if(ok){
                                                     var redisCacheShadow=new RedisCacheShadow(memoryCommon.getUUID(),keyObjName,keyObjType,memoryCommon.getSha256(valueFromDiskData,conf.platformArch.shaHashLengh),
                                                     memoryCommon.GetFormatDateFromTimeSpan(Date.now()),memoryCommon.GetFormatDateFromTimeSpan(Date.now()),valueFromDiskData,cacheGenMethod,querySqlSha,null,
-                                                    querySql,null,ttl,targetDbName);
+                                                    querySql,null,ttl,targetDbName,reqStorageClusterDbType);
 
                                                     //var memoryNodeInfoRecord=new MemoryNodeInfoRecord();
                                                     this.memoryNodeInfoRecord.redisCacheShadowInsert(redisCacheShadow);

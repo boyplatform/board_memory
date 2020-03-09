@@ -23,10 +23,10 @@ LocalFeedDiskOperator.prototype.setConn=function(){
 };
  
 //query-out operation
-LocalFeedDiskOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObjType,querySql,ttl,cacheGenMethod,cb){
+LocalFeedDiskOperator.prototype.dataRead=function(reqStorageClusterDbType,targetDbName,keyObjName,keyObjType,querySql,ttl,cacheGenMethod,cb){
     
     //make querysql into sha256 as a key
-    var querySqlSha=memoryCommon.getSha256(targetDbName+keyObjName+keyObjType+querySql,conf.platformArch.shaHashLengh);
+    var querySqlSha=memoryCommon.getSha256(reqStorageClusterDbType.toString()+targetDbName+keyObjName+keyObjType+querySql,conf.platformArch.shaHashLengh);
     //get value per the sha256 from current nodeDb
     this.memoryNodeInfoRecord.localFeedShadowSelect("1","where keyObjName=? and keyObjType=? and targetDbName=? and querySqlSha=?",[keyObjName,keyObjType,targetDbName,querySqlSha],"",function(rows){
             
@@ -54,7 +54,7 @@ LocalFeedDiskOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObj
                                 else
                                 {
                                         //try to get value from disk-data
-                                        this.diskDataTalker.seekDataFromDiskData(querySql,function(valueFromDiskData){
+                                        this.diskDataTalker.seekDataFromDiskData(reqStorageClusterDbType,querySql,function(valueFromDiskData){
                                             //set value into MemCached memory per ttl ,save the value into current nodeDb, and return value via cb
                                             if(valueFromDiskData!=undefined&&valueFromDiskData!=null&&valueFromDiskData!="[]"){
                                                         
@@ -68,7 +68,7 @@ LocalFeedDiskOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObj
                                                         memoryCommon.getFileKbSize(this.memoryNodeCache.localFeedCache.localFeedPath+key.toString().trim()+".txt",function(feedSize){
                                                             
                                                             var localFeedShadow=new LocalFeedShadow(memoryCommon.getUUID(),this.memoryNodeCache.localFeedCache.localFeedPath,key.toString().trim()+".txt",feedSize,memoryCommon.GetFormatDateFromTimeSpan(Date.now()),null,keyObjName,"txt",keyObjType,memoryCommon.getSha256(valueFromDiskData,conf.platformArch.shaHashLengh),
-                                                            cacheGenMethod,querySqlSha,null,querySql,null,ttl,targetDbName,valueFromDiskData);
+                                                            cacheGenMethod,querySqlSha,null,querySql,null,ttl,targetDbName,valueFromDiskData,reqStorageClusterDbType);
         
                                                             //var memoryNodeInfoRecord=new MemoryNodeInfoRecord();
                                                             this.memoryNodeInfoRecord.localFeedShadowInsert(localFeedShadow);

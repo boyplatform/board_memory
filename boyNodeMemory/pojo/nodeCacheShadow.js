@@ -1,6 +1,6 @@
 'use strict'
 function nodeCacheShadow(nodeCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,
-    value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName){
+    value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,reqStorageClusterDbType){
 
         this.nodeCacheGuid=nodeCacheGuid;
         this.keyObjName=keyObjName;
@@ -16,6 +16,7 @@ function nodeCacheShadow(nodeCacheGuid,keyObjName,keyObjType,valueSha,createTime
         this.writeSql=writeSql;
         this.ttl=ttl;
         this.targetDbName=targetDbName;
+        this.reqStorageClusterDbType=reqStorageClusterDbType;
 }
 
 nodeCacheShadow.prototype={

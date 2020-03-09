@@ -1,6 +1,6 @@
 'use strict'
 function redisCacheShadow(redisCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,value,
-    cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName){
+    cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,reqStorageClusterDbType){
 
         this.redisCacheGuid=redisCacheGuid;
         this.keyObjName=keyObjName;
@@ -16,6 +16,7 @@ function redisCacheShadow(redisCacheGuid,keyObjName,keyObjType,valueSha,createTi
         this.writeSql=writeSql;
         this.ttl=ttl;
         this.targetDbName=targetDbName;
+        this.reqStorageClusterDbType=reqStorageClusterDbType;
 
 }
 

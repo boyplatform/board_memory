@@ -1,6 +1,6 @@
 'use strict'
 function memCacheShadow(memCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,
-    value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName){
+    value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,reqStorageClusterDbType){
 
         this.memCacheGuid=memCacheGuid;
         this.keyObjName=keyObjName;
@@ -16,6 +16,7 @@ function memCacheShadow(memCacheGuid,keyObjName,keyObjType,valueSha,createTime,u
         this.writeSql=writeSql;
         this.ttl=ttl;
         this.targetDbName=targetDbName;
+        this.reqStorageClusterDbType=reqStorageClusterDbType;
 
 }
 

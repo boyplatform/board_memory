@@ -29,11 +29,11 @@ MemCacheOperator.prototype.setConn=function(){
 
 
 //query-out operation
-MemCacheOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObjType,querySql,ttl,cacheGenMethod,cb){
+MemCacheOperator.prototype.dataRead=function(reqStorageClusterDbType,targetDbName,keyObjName,keyObjType,querySql,ttl,cacheGenMethod,cb){
 
     
     //make querysql into sha256 as a key
-    var querySqlSha=memoryCommon.getSha256(targetDbName+keyObjName+keyObjType+querySql,conf.platformArch.shaHashLengh);
+    var querySqlSha=memoryCommon.getSha256(reqStorageClusterDbType.toString()+targetDbName+keyObjName+keyObjType+querySql,conf.platformArch.shaHashLengh);
     //get value per the sha256 from current nodeDb
     this.memoryNodeInfoRecord.memCacheShadowSelect("1","where keyObjName=? and keyObjType=? and targetDbName=? and querySqlSha=?",[keyObjName,keyObjType,targetDbName,querySqlSha],"",function(rows){
             if(rows!==undefined&&rows.length>0){
@@ -56,7 +56,7 @@ MemCacheOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObjType,
                         cb(value); 
                     }else{
                             //try to get value from disk-data
-                            this.diskDataTalker.seekDataFromDiskData(querySql,function(valueFromDiskData){
+                            this.diskDataTalker.seekDataFromDiskData(reqStorageClusterDbType,querySql,function(valueFromDiskData){
                                 //set value into MemCached memory per ttl ,save the value into current nodeDb, and return value via cb
                                 if(valueFromDiskData!=undefined&&valueFromDiskData!=null&&valueFromDiskData!="[]"){
                                             
@@ -68,7 +68,7 @@ MemCacheOperator.prototype.dataRead=function(targetDbName,keyObjName,keyObjType,
                                         if(data!=null){
                                             var memCacheShadow=new MemCacheShadow(memoryCommon.getUUID(),keyObjName,keyObjType,memoryCommon.getSha256(valueFromDiskData,conf.platformArch.shaHashLengh),
                                             memoryCommon.GetFormatDateFromTimeSpan(Date.now()),memoryCommon.GetFormatDateFromTimeSpan(Date.now()),valueFromDiskData,cacheGenMethod,querySqlSha,null,
-                                            querySql,null,ttl,targetDbName);
+                                            querySql,null,ttl,targetDbName,reqStorageClusterDbType);
 
                                             //var memoryNodeInfoRecord=new MemoryNodeInfoRecord();
                                             this.memoryNodeInfoRecord.memCacheShadowInsert(memCacheShadow);

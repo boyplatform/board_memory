@@ -10,4 +10,4 @@ memory,One repo of boy distribute modality platform. Support web Intelligent&dis
 2.If you want to use database cluster which was hosted by diskData-role with memory-role together under boyplatform,you can use memory.
 
 #Current bussiness DB type supported by this micro-service role
-MySql
+MySql,MsSql

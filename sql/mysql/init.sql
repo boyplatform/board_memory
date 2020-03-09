@@ -31,8 +31,13 @@ create table localFeedShadow
    ttl                  int comment 'expired seconds',
    targetDbName         varchar(255),
    value                text,
+   reqStorageClusterDbType int comment '0=mysql
+            1=mssql
+            2=db2
+            3=oracle',
    primary key (localFeedId)
 );
+
 
 drop table if exists nodeCacheShadow;
 
@@ -61,8 +66,13 @@ create table nodeCacheShadow
    writeSql             text,
    ttl                  int comment 'expired seconds',
    targetDbName         varchar(255),
+   reqStorageClusterDbType int comment '0=mysql
+            1=mssql
+            2=db2
+            3=oracle',
    primary key (nodeCacheId)
 );
+
 
 drop table if exists redisCacheShadow;
 
@@ -91,8 +101,13 @@ create table redisCacheShadow
    writeSql             text,
    ttl                  int comment 'expired seconds',
    targetDbName         varchar(255),
+   reqStorageClusterDbType int comment '0=mysql
+            1=mssql
+            2=db2
+            3=oracle',
    primary key (redisCacheId)
 );
+
 
 drop table if exists memCacheShadow;
 
@@ -121,8 +136,13 @@ create table memCacheShadow
    writeSql             text,
    ttl                  int comment 'expired seconds',
    targetDbName         varchar(255),
+   reqStorageClusterDbType int comment '0=mysql
+            1=mssql
+            2=db2
+            3=oracle',
    primary key (memCacheId)
 );
+
 
 drop table if exists DBUpgradeHistory;
 

@@ -13,8 +13,8 @@ MemoryNodeInfoRecord.prototype.localFeedShadowInsert=function(localFeedShadow){
 
      
     MemoryDb.dbType = 'mysql';
-    MemoryDb.mysqlParameter.common.sql = "insert into localFeedShadow (localFeedGuid,feedPath,feedName,feedSize,createTime,updateTime,keyObjName,feedExtName,keyObjType,valueSha,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,value) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    MemoryDb.mysqlParameter.common.params = [localFeedShadow.localFeedGuid,localFeedShadow.feedPath,localFeedShadow.feedName,localFeedShadow.feedSize,localFeedShadow.createTime,localFeedShadow.updateTime,localFeedShadow.keyObjName,localFeedShadow.feedExtName,localFeedShadow.keyObjType,localFeedShadow.valueSha,localFeedShadow.cacheGenMethod,localFeedShadow.querySqlSha,localFeedShadow.writeSqlSha,localFeedShadow.querySql,localFeedShadow.writeSql,localFeedShadow.ttl,localFeedShadow.targetDbName,localFeedShadow.value];
+    MemoryDb.mysqlParameter.common.sql = "insert into localFeedShadow (localFeedGuid,feedPath,feedName,feedSize,createTime,updateTime,keyObjName,feedExtName,keyObjType,valueSha,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,value,reqStorageClusterDbType) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    MemoryDb.mysqlParameter.common.params = [localFeedShadow.localFeedGuid,localFeedShadow.feedPath,localFeedShadow.feedName,localFeedShadow.feedSize,localFeedShadow.createTime,localFeedShadow.updateTime,localFeedShadow.keyObjName,localFeedShadow.feedExtName,localFeedShadow.keyObjType,localFeedShadow.valueSha,localFeedShadow.cacheGenMethod,localFeedShadow.querySqlSha,localFeedShadow.writeSqlSha,localFeedShadow.querySql,localFeedShadow.writeSql,localFeedShadow.ttl,localFeedShadow.targetDbName,localFeedShadow.value,localFeedShadow.reqStorageClusterDbType];
     MemoryDb.mysqlParameter.common.callBack = function (err, success, insertId) {
       
         if(err)
@@ -110,8 +110,8 @@ MemoryNodeInfoRecord.prototype.localFeedShadowDelete=function(localFeedId){
 MemoryNodeInfoRecord.prototype.nodeCacheShadowInsert=function(nodeCacheShadow){
     
     MemoryDb.dbType = 'mysql';
-    MemoryDb.mysqlParameter.common.sql = "insert into nodeCacheShadow (nodeCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    MemoryDb.mysqlParameter.common.params = [nodeCacheShadow.nodeCacheGuid,nodeCacheShadow.keyObjName,nodeCacheShadow.keyObjType,nodeCacheShadow.valueSha,nodeCacheShadow.createTime,nodeCacheShadow.updateTime,nodeCacheShadow.value,nodeCacheShadow.cacheGenMethod,nodeCacheShadow.querySqlSha,nodeCacheShadow.writeSqlSha,nodeCacheShadow.querySql,nodeCacheShadow.writeSql,nodeCacheShadow.ttl,nodeCacheShadow.targetDbName];
+    MemoryDb.mysqlParameter.common.sql = "insert into nodeCacheShadow (nodeCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,reqStorageClusterDbType) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    MemoryDb.mysqlParameter.common.params = [nodeCacheShadow.nodeCacheGuid,nodeCacheShadow.keyObjName,nodeCacheShadow.keyObjType,nodeCacheShadow.valueSha,nodeCacheShadow.createTime,nodeCacheShadow.updateTime,nodeCacheShadow.value,nodeCacheShadow.cacheGenMethod,nodeCacheShadow.querySqlSha,nodeCacheShadow.writeSqlSha,nodeCacheShadow.querySql,nodeCacheShadow.writeSql,nodeCacheShadow.ttl,nodeCacheShadow.targetDbName,nodeCacheShadow.reqStorageClusterDbType];
     MemoryDb.mysqlParameter.common.callBack = function (err, success, insertId) {
       
         if(err)
@@ -211,8 +211,8 @@ MemoryNodeInfoRecord.prototype.nodeCacheShadowDelete=function(nodeCacheId){
 MemoryNodeInfoRecord.prototype.redisCacheShadowInsert=function(redisCacheShadow){
     
     MemoryDb.dbType = 'mysql';
-    MemoryDb.mysqlParameter.common.sql = "insert into redisCacheShadow (redisCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    MemoryDb.mysqlParameter.common.params = [redisCacheShadow.redisCacheGuid,redisCacheShadow.keyObjName,redisCacheShadow.keyObjType,redisCacheShadow.valueSha,redisCacheShadow.createTime,redisCacheShadow.updateTime,redisCacheShadow.value,redisCacheShadow.cacheGenMethod,redisCacheShadow.querySqlSha,redisCacheShadow.writeSqlSha,redisCacheShadow.querySql,redisCacheShadow.writeSql,redisCacheShadow.ttl,redisCacheShadow.targetDbName];
+    MemoryDb.mysqlParameter.common.sql = "insert into redisCacheShadow (redisCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,reqStorageClusterDbType) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    MemoryDb.mysqlParameter.common.params = [redisCacheShadow.redisCacheGuid,redisCacheShadow.keyObjName,redisCacheShadow.keyObjType,redisCacheShadow.valueSha,redisCacheShadow.createTime,redisCacheShadow.updateTime,redisCacheShadow.value,redisCacheShadow.cacheGenMethod,redisCacheShadow.querySqlSha,redisCacheShadow.writeSqlSha,redisCacheShadow.querySql,redisCacheShadow.writeSql,redisCacheShadow.ttl,redisCacheShadow.targetDbName,redisCacheShadow.reqStorageClusterDbType];
     MemoryDb.mysqlParameter.common.callBack = function (err, success, insertId) {
       
         if(err)
@@ -312,8 +312,8 @@ MemoryNodeInfoRecord.prototype.redisCacheShadowDelete=function(redisCacheId){
 MemoryNodeInfoRecord.prototype.memCacheShadowInsert=function(memCacheShadow){
     
     MemoryDb.dbType = 'mysql';
-    MemoryDb.mysqlParameter.common.sql ="insert into memCacheShadow (memCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    MemoryDb.mysqlParameter.common.params = [memCacheShadow.memCacheGuid,memCacheShadow.keyObjName,memCacheShadow.keyObjType,memCacheShadow.valueSha,memCacheShadow.createTime,memCacheShadow.updateTime,memCacheShadow.value,memCacheShadow.cacheGenMethod,memCacheShadow.querySqlSha,memCacheShadow.writeSqlSha,memCacheShadow.querySql,memCacheShadow.writeSql,memCacheShadow.ttl,memCacheShadow.targetDbName];
+    MemoryDb.mysqlParameter.common.sql ="insert into memCacheShadow (memCacheGuid,keyObjName,keyObjType,valueSha,createTime,updateTime,value,cacheGenMethod,querySqlSha,writeSqlSha,querySql,writeSql,ttl,targetDbName,reqStorageClusterDbType) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    MemoryDb.mysqlParameter.common.params = [memCacheShadow.memCacheGuid,memCacheShadow.keyObjName,memCacheShadow.keyObjType,memCacheShadow.valueSha,memCacheShadow.createTime,memCacheShadow.updateTime,memCacheShadow.value,memCacheShadow.cacheGenMethod,memCacheShadow.querySqlSha,memCacheShadow.writeSqlSha,memCacheShadow.querySql,memCacheShadow.writeSql,memCacheShadow.ttl,memCacheShadow.targetDbName,memCacheShadow.reqStorageClusterDbType];
     MemoryDb.mysqlParameter.common.callBack = function (err, success, insertId) {
       
         if(err)

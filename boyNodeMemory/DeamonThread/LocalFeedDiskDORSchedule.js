@@ -31,7 +31,7 @@ LocalFeedDiskDORSchedule.prototype.DOR=function(){
             {
                 for(let row of rows){
                     //seek data per the shadow querysql value from disk-data.
-                    this.diskDataTalker.seekDataFromDiskData(row.querySql,function(valueFromDiskData){
+                    this.diskDataTalker.seekDataFromDiskData(row.reqStorageClusterDbType,row.querySql,function(valueFromDiskData){
                             //take the return back value from disk-data,make it to be sha256,verify whether it's match to existed sha256 under current nodeDb.
                             if(valueFromDiskData!=undefined&&valueFromDiskData!=null&&valueFromDiskData!="[]"){
                                                         

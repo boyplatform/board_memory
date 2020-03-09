@@ -74,7 +74,8 @@ var redisClusterPoolConfig=[
 var platformArch= {
    
      defaultHttpReqTimeOut:6000,
-     diskDataApiUrl:"www.boyDiskData.com:80",
+     diskDataApiUrl:"127.0.0.1:8080", //www.boyDiskData.com:80
+     diskDataMssqlApiUrl:"127.0.0.1:8080",
      shaHashLengh:36,
      shaHashTimes:3,
      DeamonThreadSecRate:{

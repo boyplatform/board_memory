@@ -5,9 +5,15 @@ function DiskDataTalker(){
 
 }
 
-DiskDataTalker.prototype.seekDataFromDiskData=function(querySql,callback){
+DiskDataTalker.prototype.seekDataFromDiskData=function(reqStorageClusterDbType,querySql,callback){
     
-    var domainUrl=conf.platformArch.diskDataApiUrl;
+    var domainUrl="";
+    if(reqStorageClusterDbType.toString()==='0'){
+        domainUrl=conf.platformArch.diskDataApiUrl;
+    }else if(reqStorageClusterDbType.toString()==='1')
+    {
+        domainUrl=conf.platformArch.diskDataMssqlApiUrl;
+    }
     var partialUrl="/getDiskData";
     var qs=""
     var timeout=conf.platformArch.defaultHttpReqTimeOut;
