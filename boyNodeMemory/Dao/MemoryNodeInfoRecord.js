@@ -465,8 +465,8 @@ MemoryNodeInfoRecord.prototype.crystalClusterBlockUpdate=function(crystalCluster
 MemoryNodeInfoRecord.prototype.crystalClusterBlockMasterUpdate=function(crystalClusterBlock){
     
     MemoryDb.dbType = 'mysql';
-    MemoryDb.mysqlParameter.common.sql ="update crystalClusterBlock set crstalNodeRole=? where crystalNodeGuid=?";
-    MemoryDb.mysqlParameter.common.params=[crystalClusterBlock.crstalNodeRole,crystalClusterBlock.crystalNodeGuid];
+    MemoryDb.mysqlParameter.common.sql ="update crystalClusterBlock set crstalNodeRole=? where crystalNodeIp=?";
+    MemoryDb.mysqlParameter.common.params=[crystalClusterBlock.crstalNodeRole,crystalClusterBlock.crystalNodeIp];
     MemoryDb.mysqlParameter.common.callBack = function (err, success, affectedRows)
     {
         if (err) {
