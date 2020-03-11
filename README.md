@@ -30,7 +30,7 @@ MySql,MsSql
    
 
 4.如果你想调试这个微服务的整套restful API，可使用fiddler尝试运行如下报文。
-  If you want to debug this micro-service's restful API,you can use fiddler to run below post message to related API.
+4.If you want to debug this micro-service's restful API,you can use fiddler to run below post message to related API.
   
   ---- 写入操作(write memory) ---- 
  
