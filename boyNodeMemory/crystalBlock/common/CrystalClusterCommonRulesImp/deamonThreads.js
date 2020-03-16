@@ -36,7 +36,7 @@ DeamonThreads.prototype.nodePerformanceCollect=async function(httpMode){
     //loop the crystal cluster IP which not equal to current node IP.
     for(let ip in crystalCluster){
        
-        if(ip.trim()!="httpDefaultMode"&&ip.trim()!="interactProtocolType")   //remove non-ip key process
+        if(memoryCommon.whetherCrystalNodeItem(ip.trim()))   //remove non-ip key process
         {
             let crystalNodeIp=null,crystalNodePort=null;
             if(crystalCluster[ip].split(":").length>1){
@@ -124,7 +124,7 @@ DeamonThreads.prototype.timelySelfNatureSelectionVote=function(){
     let crystalClusterNodeCount=0;
     var crystalCluster=conf.platformArch.crystalCluster;
     for(let ip in crystalCluster){
-        if(ip.trim()!="httpDefaultMode"&&ip.trim()!="interactProtocolType")   //remove non-ip key process
+        if(memoryCommon.whetherCrystalNodeItem(ip.trim()))   //remove non-ip key process
         {
             crystalClusterNodeCount++;
         }
@@ -332,7 +332,7 @@ DeamonThreads.prototype.timelyMeetingSelectionVote=async function(httpMode){
     var crystalCluster=conf.platformArch.crystalCluster;
     for(let ip in crystalCluster){
        
-        if(ip.trim()!="httpDefaultMode"&&ip.trim()!="interactProtocolType")   //remove non-ip key process
+        if(memoryCommon.whetherCrystalNodeItem(ip.trim()))   //remove non-ip key process
         {
             let crystalNodeIp=null,crystalNodePort=null;
             if(crystalCluster[ip].split(":").length>1){

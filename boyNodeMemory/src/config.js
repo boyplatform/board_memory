@@ -92,6 +92,12 @@ var platformArch= {
        forGetCurrentNodeRolePromiseTime:50
      },
      crystalCluster:{
+         CheckSelfPubNetworkIpHttpMode:"https",
+         CheckSelfPubNetworkIpDomainUrl: "api.ipify.org",
+         CheckSelfPubNetworkIpPartialUrl:"/?format=json",
+         SelfPubNetworkIpCacheTime:600,
+         SelfPubNetworkIpCacheRetryRateOnceNetError:30,
+         CrystalClusterNetworkMode:"internet",   //internet=广域网集群/lan=局域网内网集群
         interactProtocolType:0,
         httpDefaultMode:"http",
         ip1:'127.0.0.1:8080',

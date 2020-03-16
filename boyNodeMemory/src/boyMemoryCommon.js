@@ -6,32 +6,126 @@ var crpto= require('crypto');
 var fs=require("fs");
 var nodecmd=require("node-cmd");
 var uuid= require('node-uuid'); 
+var InodeCahce=require("../coreLibs/iNodeCache");
+var memoryNodeCache=new InodeCahce("singleNodeCache");
+memoryNodeCache.setConn({});
+
+//初始化当前服务节点公网IP缓存
+var initCurrentServerPubIpAdress=function(){
+
+  getCurrentServerPubIpAdress(function(pubIp){});
+  require('deasync').sleep(12000);
+  //定期执行IP缓存
+    setDeamonThreadJob(function(){
+        getCurrentServerPubIpAdress(function(pubIp){
+          console.log("currentPubIP:",pubIp);
+        });
+  },conf.platformArch.crystalCluster.SelfPubNetworkIpCacheRetryRateOnceNetError);
+}
 
 //获取当前服务节点公网/域内IP
-var getCurrentServerIpAdress=function(){
-  let IPAdress='';
-  for(var devName in interfaces){
-      var iface=interfaces[devName];
-      for(var i=0;i<iface.length;i++){
-          var alias=iface[i];
-          if(alias.family === 'IPv4' && alias.address!=='127.0.0.1'&& !alias.internal){
+var getCurrentServerIpAdress= function(){
+   
+    let IPAdress='';
+   
+        getCurrentServerPubIpAdress(function(pubIp){
+            IPAdress=pubIp;
+        }); 
 
-          	IPAdress=alias.address;
-          }
+        if(IPAdress==="")
+        {
+                for(var devName in interfaces)
+                {
+                  var iface=interfaces[devName];
+                  for(var i=0;i<iface.length;i++){
+                      var alias=iface[i];
+                      if(alias.family === 'IPv4' && alias.address!=='127.0.0.1'&& !alias.internal){
+            
+                        IPAdress=alias.address;
+                      }
+            
+                  }
+                }
+        }
 
-      }
+        if(IPAdress!=='')
+        {
+          return IPAdress;
+      
+        }else{
+      
+          return '127.0.0.1';
+        }
+         
+           
+}
 
-  }
+//获取当前节点公网IP
+var getCurrentServerPubIpAdress= function(callback){
 
-  if(IPAdress!=='')
-  {
-  	return IPAdress;
+   //判断集群网络模式，LAN直接返回''
+   if(conf.platformArch.crystalCluster.CrystalClusterNetworkMode==="lan"){
+      
+       return callback("");
+     
+   }
+   //判断缓存中是否已存在pubIp
+  
+   memoryNodeCache.get("myPubIp",function(err,value){
+        if(err){
+            console.log(err);
+            return callback("");
+            
+        }
+        if (value===undefined||value===null)
+        {
+           //不存在，请求远程IP查询地址并写入缓存
+           memoryHttpHelper.apiSimpleRequestWithCallBack(conf.platformArch.crystalCluster.CheckSelfPubNetworkIpHttpMode,conf.platformArch.crystalCluster.CheckSelfPubNetworkIpDomainUrl,conf.platformArch.crystalCluster.CheckSelfPubNetworkIpPartialUrl,{},false,conf.platformArch.defaultHttpReqTimeOut,function(res){
+                   
+                 if(res!=undefined){
 
-  }else{
+                      memoryNodeCache.set("myPubIp",res.ip,{ttl:conf.platformArch.crystalCluster.SelfPubNetworkIpCacheTime},function(err,ok){
+                        if(err){
+                          console.log("Met error during set myPubIp cache:",err);
+                          return callback("");
+                         
+                        }
+                        if(ok==="OK"){
+                          
+                          console.log("set myPubIp cache successfully.");
+                          return callback(res.ip);
+                         
+                          
+                        }
 
-  	return '127.0.0.1';
-  }
+                    })
+                 }
+                 else{
+                        memoryNodeCache.set("myPubIp","",{ttl:conf.platformArch.crystalCluster.SelfPubNetworkIpCacheRetryRateOnceNetError},function(err,ok){
+                          if(err){
+                            console.log("Met error during set myPubIp cache:",err);
+                            return callback("");
+                          
+                          }
+                          if(ok==="OK"){
+                            
+                            console.log("set myPubIp cache successfully.");
+                            return callback("");
+                          
+                            
+                          }
 
+                      })    
+                 }
+
+           })    
+
+        }else{
+         
+           return callback(value);
+         
+        }  //已存在直接返回
+   })
 }
 
 
@@ -225,7 +319,7 @@ var getCurrentCrystalCluster=async function(resp,httpMode,infoType){
    let Rs={};
    
    for(let ip in conf.platformArch.crystalCluster){
-        if(whetherCrystalNodeItem(ip))
+        if(whetherCrystalNodeItem(ip.trim()))
         {
               var domainUrl=conf.platformArch.crystalCluster[ip];
               var partialUrl="/readMe";
@@ -455,7 +549,7 @@ var getCurrentCrystalClusterNodeCount=function(){
   let crystalClusterNodeCount=0;
   var crystalCluster=conf.platformArch.crystalCluster;
   for(let ip in crystalCluster){
-      if(ip.trim()!="httpDefaultMode"&&ip.trim()!="interactProtocolType")   //remove non-ip key process
+      if(whetherCrystalNodeItem(ip.trim()))   //remove non-ip key process
       {
           crystalClusterNodeCount++;
       }
@@ -466,7 +560,7 @@ var getCurrentCrystalClusterNodeCount=function(){
 //whetherCrystalNodeItem
 var whetherCrystalNodeItem=function(inputConfigItem){
   
-  if(inputConfigItem.trim()!="httpDefaultMode"&&inputConfigItem.trim()!="interactProtocolType")    
+  if(inputConfigItem.trim()!="httpDefaultMode"&&inputConfigItem.trim()!="interactProtocolType"&&inputConfigItem.trim()!="CheckSelfPubNetworkIpHttpMode"&&inputConfigItem.trim()!="CheckSelfPubNetworkIpDomainUrl"&&inputConfigItem.trim()!="CheckSelfPubNetworkIpPartialUrl"&&inputConfigItem.trim()!="SelfPubNetworkIpCacheTime"&&inputConfigItem.trim()!="CrystalClusterNetworkMode"&&inputConfigItem.trim()!="SelfPubNetworkIpCacheRetryRateOnceNetError")    
   {
       return true;
   }else{
@@ -518,7 +612,7 @@ var replaceAll=function(find,replace,str){
   return str.replace(new RegExp(find,'g'),replace);
 }
 
-
+exports.initCurrentServerPubIpAdress=initCurrentServerPubIpAdress;
 exports.getCurrentServerIpAdress=getCurrentServerIpAdress;
 exports.getCurrentServerLocalIpAdress=getCurrentServerLocalIpAdress;
 exports.setDeamonThreadJob=setDeamonThreadJob;
