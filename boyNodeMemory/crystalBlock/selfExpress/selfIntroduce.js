@@ -1,7 +1,7 @@
 var os=require('os');
 const memoryHttpHelper=require('../../src/boyMemoryHttpHelper');
 var conf = require("../../src/config");
-
+var boyMemoryCommon=require('../../src/boyMemoryCommon');
 
 //获取节点内存
 var getCurrentNodeMem=function(){
@@ -64,16 +64,18 @@ var getCurrentCrystalCluster=async function(resp,httpMode,infoType){
     let Rs={};
     
     for(let ip in conf.platformArch.crystalCluster){
-       
-      var domainUrl=conf.platformArch.crystalCluster[ip];
-      var partialUrl="/readMe";
-      var qs=""
-      var timeout=conf.platformArch.defaultHttpReqTimeOut;
-      var body={
-                'type':infoType  
-               };
-      let res=await memoryHttpHelper.apiSimpleRequest(httpMode,domainUrl,partialUrl,qs,body,timeout);
-      Rs[ip]=res;
+        if(boyMemoryCommon.whetherCrystalNodeItem(ip.trim()))
+        {
+            var domainUrl=conf.platformArch.crystalCluster[ip];
+            var partialUrl="/readMe";
+            var qs=""
+            var timeout=conf.platformArch.defaultHttpReqTimeOut;
+            var body={
+                        'type':infoType  
+                    };
+            let res=await memoryHttpHelper.apiSimpleRequest(httpMode,domainUrl,partialUrl,qs,body,timeout);
+            Rs[ip]=res;
+        }
     }
     //console.log(Rs);
     resp.end(JSON.stringify(Rs));
