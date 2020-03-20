@@ -2,7 +2,7 @@
   "name": "memory",
   "version": "1.0.0",
   "description": "memory,One repo of boy distribute modality platform. Support web Intelligent data memory cache functions such as temp cache data storage, data operation of platform level input&output, temp cache/flash data persistance and so on.",
-  "homepage": "https://github.com/boyplatform/memory",
+  "homepage": "https://github.com/boyplatform/board_memory",
   "main": "index.js",
   "files": [
     "index.js",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/boyplatform/memory.git"
+    "url": "https://github.com/boyplatform/board_memory.git"
   },
   "keywords": [
     "memcached",

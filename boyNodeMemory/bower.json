@@ -14,7 +14,7 @@
     "net memory",
     "缓存"
   ],
-  "homepage": "https://github.com/boyplatform/memory",
+  "homepage": "https://github.com/boyplatform/board_memory",
   "ignore": [
     "**/.*",
     "node_modules",
