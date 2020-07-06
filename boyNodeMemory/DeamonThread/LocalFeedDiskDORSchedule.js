@@ -46,8 +46,8 @@ LocalFeedDiskDORSchedule.prototype.DOR=function(){
 
                                             localFeedShadow.valueSha=valueSha;
                                             
-                                            var memoryNodeInfoRecord=new MemoryNodeInfoRecord();
-                                            memoryNodeInfoRecord.localFeedShadowUpdate(localFeedShadow);
+                                            //var memoryNodeInfoRecord=new MemoryNodeInfoRecord();
+                                            this.memoryNodeInfoRecord.localFeedShadowUpdate(localFeedShadow);
                                             
                                             var memoryNodeCache=new InodeCahce("localFeedCache");
                                             memoryNodeCache.setConn(undefined);
