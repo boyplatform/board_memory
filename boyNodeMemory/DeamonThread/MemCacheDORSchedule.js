@@ -37,12 +37,13 @@ MemCacheDORSchedule.prototype.DOR=function(){
                             //if it's not matched, update new value&value-sha256 to current NodeDB per querysqlSha,keyObjName,keyObjType,meanwhile update the value to memCached cluster per (querysqlSha as key). 
                             var valueSha=memoryCommon.getSha256(valueFromDiskData,conf.platformArch.shaHashLengh);
                             if(row.valueSha!==valueSha){
-                                var memCacheShadow=new MemCacheShadow(row.localFeedGuid,row.feedPath,row.feedName,row.feedSize,row.createTime,
-                                    row.updateTime,row.keyObjName,row.feedExtName,row.keyObjType,row.valueSha,
-                                    row.cacheGenMethod,row.querySqlSha,row.writeSqlSha,row.querySql,row.writeSql,row.ttl,row.targetDbName);
+                                var memCacheShadow=new MemCacheShadow(row.memCacheGuid,row.keyObjName,row.keyObjType,row.valueSha,row.createTime,
+                                    row.updateTime,row.value,row.cacheGenMethod,row.querySqlSha,row.writeSqlSha,
+                                    row.querySql,row.writeSql,row.ttl,row.targetDbName,row.reqStorageClusterDbType);
 
                                     memCacheShadow.valueSha=valueSha;
                                     memCacheShadow.value=valueFromDiskData;
+                                    memCacheShadow.updateTime=memoryCommon.GetFormatDateFromTimeSpan(Date.now());
 
                                     //var memoryNodeInfoRecord=new MemoryNodeInfoRecord();
                                     this.memoryNodeInfoRecord.memCacheShadowUpdate(memCacheShadow);

@@ -38,8 +38,8 @@ MemoryNodeInfoRecord.prototype.localFeedShadowInsert=function(localFeedShadow){
 MemoryNodeInfoRecord.prototype.localFeedShadowUpdate=function(localFeedShadow){   
    
     MemoryDb.dbType = 'mysql';    
-    MemoryDb.mysqlParameter.common.sql ="update localFeedShadow set feedPath=?,feedName=?,feedSize=?,createTime=?,updateTime=?,keyObjName=?,feedExtName=?,keyObjType=?,valueSha=?,cacheGenMethod=?,querySqlSha=?,writeSqlSha=?,querySql=?,writeSql=?,ttl=?,targetDbName=? where localFeedGuid=?";
-    MemoryDb.mysqlParameter.common.params=[localFeedShadow.feedPath,localFeedShadow.feedName,localFeedShadow.feedSize,localFeedShadow.createTime,localFeedShadow.updateTime,localFeedShadow.keyObjName,localFeedShadow.feedExtName,localFeedShadow.keyObjType,localFeedShadow.valueSha,localFeedShadow.cacheGenMethod,localFeedShadow.querySqlSha,localFeedShadow.writeSqlSha,localFeedShadow.querySql,localFeedShadow.writeSql,localFeedShadow.ttl,localFeedShadow.targetDbName,localFeedShadow.localFeedGuid];
+    MemoryDb.mysqlParameter.common.sql ="update localFeedShadow set feedPath=?,feedName=?,feedSize=?,createTime=?,updateTime=?,keyObjName=?,feedExtName=?,keyObjType=?,valueSha=?,cacheGenMethod=?,querySqlSha=?,writeSqlSha=?,querySql=?,writeSql=?,ttl=?,targetDbName=?,value=? where localFeedGuid=?";
+    MemoryDb.mysqlParameter.common.params=[localFeedShadow.feedPath,localFeedShadow.feedName,localFeedShadow.feedSize,localFeedShadow.createTime,localFeedShadow.updateTime,localFeedShadow.keyObjName,localFeedShadow.feedExtName,localFeedShadow.keyObjType,localFeedShadow.valueSha,localFeedShadow.cacheGenMethod,localFeedShadow.querySqlSha,localFeedShadow.writeSqlSha,localFeedShadow.querySql,localFeedShadow.writeSql,localFeedShadow.ttl,localFeedShadow.targetDbName,localFeedShadow.value,localFeedShadow.localFeedGuid];
     MemoryDb.mysqlParameter.common.callBack = function (err, success, affectedRows)
     {
         if (err) {

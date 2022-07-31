@@ -39,12 +39,13 @@ RedisCacheDORSchedule.prototype.DOR=function(){
                                 if(row.valueSha!==valueSha)
                                 {
                                     
-                                    var redisCacheShadow=new RedisCacheShadow(row.localFeedGuid,row.feedPath,row.feedName,row.feedSize,row.createTime,
-                                        row.updateTime,row.keyObjName,row.feedExtName,row.keyObjType,row.valueSha,
-                                        row.cacheGenMethod,row.querySqlSha,row.writeSqlSha,row.querySql,row.writeSql,row.ttl,row.targetDbName);
+                                    var redisCacheShadow=new RedisCacheShadow(row.redisCacheGuid,row.keyObjName,row.keyObjType,row.valueSha,row.createTime,
+                                        row.updateTime,row.value,row.cacheGenMethod,row.querySqlSha,row.writeSqlSha,
+                                        row.querySql,row.writeSql,row.ttl,row.targetDbName,row.reqStorageClusterDbType);
 
                                         redisCacheShadow.valueSha=valueSha;
                                         redisCacheShadow.value=valueFromDiskData;
+                                        redisCacheShadow.updateTime=memoryCommon.GetFormatDateFromTimeSpan(Date.now());
 
                                         //var memoryNodeInfoRecord=new MemoryNodeInfoRecord();
                                         this.memoryNodeInfoRecord.redisCacheShadowUpdate(redisCacheShadow);
